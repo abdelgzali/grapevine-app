@@ -12,7 +12,6 @@ import ls from "local-storage";
 
 const client = new ApolloClient({
   uri: "https://grapvine-api.herokuapp.com/",
-  credentials: 'include',
   cache: new InMemoryCache(),
 });
 
