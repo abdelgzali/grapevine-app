@@ -11,7 +11,7 @@ import {
 import ls from "local-storage";
 
 const client = new ApolloClient({
-  uri: "https://grapvine-api.herokuapp.com/",
+  uri: "http://grapvine-api.herokuapp.com/",
   cache: new InMemoryCache(),
 });
 
@@ -70,7 +70,6 @@ const Chat = () => {
     grape: ls("local-user") ? ls("local-user") : "",
     content: "",
   });
-  console.log(chatState.grape);
   const [postMessage] = useMutation(POST_MESSAGE);
 
   const onEnter = () => {
@@ -87,7 +86,6 @@ const Chat = () => {
 
   const handleUser = (user) => {
     if (user.length > 0) {
-      console.log(user);
       ls("local-user", user);
       setChatState({
         ...chatState,
