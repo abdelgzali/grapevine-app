@@ -80,7 +80,7 @@ input {
 }
 
 #messages > div {
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
   background-color: #9b59b6;
   color: #fff;
   padding: 1rem;
@@ -99,10 +99,6 @@ input {
 #messages > div.this-user {
   background-color: #27ae60;
   align-self: flex-end;
-}
-
-#messages > div:nth-last-of-type(2) {
-  margin-bottom: 4rem
 }
 
 #messages > div:last-of-type {
