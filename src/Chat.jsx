@@ -45,8 +45,8 @@ const Messages = ({ user, messageAdded }) => {
     scrollRef.current.scrollIntoView({ behavior: "smooth" });
   });
 
-  const messagesArr = messages ? messages.messages : [];
-  if (messageAdded) messagesArr.push(messageAdded);
+  const messagesArr = messages ? [...messages.messages] : [];
+  if (messageAdded) messagesArr.push(messageAdded.newMessage);
 
   return (
     <div id="messages">
@@ -74,10 +74,6 @@ const Chat = () => {
   });
   const [postMessage] = useMutation(POST_MESSAGE);
   const { data: messageAdded } = useSubscription(MESSAGES_SUBSCRIPTION);
-
-  useEffect(() => {
-    console.log(messageAdded);
-  }, [messageAdded]);
 
   const onEnter = () => {
     if (chatState.content.length > 0) {
