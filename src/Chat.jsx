@@ -73,9 +73,7 @@ const Chat = () => {
     content: "",
   });
   const [postMessage] = useMutation(POST_MESSAGE);
-  const { data: messageAdded, loading } = useSubscription(
-    MESSAGES_SUBSCRIPTION
-  );
+  const { data: messageAdded } = useSubscription(MESSAGES_SUBSCRIPTION);
 
   useEffect(() => {
     console.log(messageAdded);
