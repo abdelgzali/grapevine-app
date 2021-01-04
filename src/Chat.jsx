@@ -52,14 +52,12 @@ const Messages = ({ user, messageAdded }) => {
 
   useEffect(() => {
     if (messageAdded) {
-      const updatedMessages = [...messagesArr];
-      updatedMessages.push(messageAdded.newMessage);
-      updateUpdateMessagesArr(updatedMessages);
+      updateUpdateMessagesArr((prevMessages) => [
+        ...prevMessages,
+        messageAdded.newMessage,
+      ]);
     }
   }, [messageAdded]);
-
-  // const messagesArr = messages ? [...messages.messages] : [];
-  // if (messageAdded) messagesArr.push(messageAdded.newMessage);
 
   return (
     <div id="messages">
