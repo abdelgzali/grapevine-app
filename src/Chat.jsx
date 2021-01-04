@@ -1,19 +1,14 @@
 import React, { useState, useRef, useEffect } from "react";
 
 import {
-  ApolloClient,
-  InMemoryCache,
   ApolloProvider,
   useQuery,
   gql,
   useMutation,
+  useSubscription,
 } from "@apollo/client";
+import client from "./ApolloClient/client.js";
 import ls from "local-storage";
-
-const client = new ApolloClient({
-  uri: "https://grapvine-api.herokuapp.com/",
-  cache: new InMemoryCache(),
-});
 
 const GET_MESSAGES = gql`
   query {
@@ -25,9 +20,6 @@ const GET_MESSAGES = gql`
 `;
 
 const POST_MESSAGE = gql`
-  # mutation postMessage($grape:String!, $content:String!) {
-  #   postMessage(grape: $grape, content: $content)
-  # }
   mutation postMessage($grape: String!, $content: String!) {
     postMessage(grape: $grape, content: $content) {
       grape
@@ -36,15 +28,25 @@ const POST_MESSAGE = gql`
   }
 `;
 
-const Messages = ({ user }) => {
+const MESSAGES_SUBSCRIPTION = gql`
+  subscription {
+    newMessage {
+      grape
+      content
+    }
+  }
+`;
+
+const Messages = ({ user, messageAdded }) => {
   const scrollRef = useRef(null);
-  const { data } = useQuery(GET_MESSAGES);
+  const { data: messages } = useQuery(GET_MESSAGES);
 
   useEffect(() => {
     scrollRef.current.scrollIntoView({ behavior: "smooth" });
   });
 
-  const messagesArr = data ? data.messages : [];
+  const messagesArr = messages ? messages.messages : [];
+  if (messageAdded) messagesArr.push(messageAdded);
 
   return (
     <div id="messages">
@@ -71,6 +73,13 @@ const Chat = () => {
     content: "",
   });
   const [postMessage] = useMutation(POST_MESSAGE);
+  const { data: messageAdded, loading } = useSubscription(
+    MESSAGES_SUBSCRIPTION
+  );
+
+  useEffect(() => {
+    console.log(messageAdded);
+  }, [messageAdded]);
 
   const onEnter = () => {
     if (chatState.content.length > 0) {
@@ -96,7 +105,7 @@ const Chat = () => {
 
   return (
     <div>
-      <Messages user={chatState.grape} />
+      <Messages user={chatState.grape} messageAdded={messageAdded} />
       <div id="chat-inputs">
         <input
           type="text"
