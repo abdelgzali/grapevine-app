@@ -45,18 +45,31 @@ input {
   border-radius: 10px;
 }
 
-#messages {
+#app-chat {
   width: 100%;
   max-width: 600px;
+  margin: 2rem auto;
+}
+
+#app-chat > h3 {
+  text-align: center;
+  color:#9b59b6;
+}
+
+#messages-wrapper {
+  padding: 0 1rem 1rem;
+  margin: 2rem auto;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+}
+
+#messages {
+  width: 100%;
   max-height: 60vh;
   overflow: scroll;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  padding: 2rem;
-  margin: 2rem auto;
-  border: 1px solid #ccc;
-  border-radius: 10px;
   scrollbar-width: none; /* Firefox */
   -ms-overflow-style: none;  /* Internet Explorer 10+ */
 }
@@ -72,6 +85,7 @@ input {
   color: #fff;
   padding: 1rem;
   border-radius: 10px;
+  max-width: 400px;
 }
 
 #messages > div > h5 {
@@ -87,10 +101,13 @@ input {
   align-self: flex-end;
 }
 
+#messages > div:nth-last-of-type(2) {
+  margin-bottom: 4rem
+}
+
 #messages > div:last-of-type {
   height: 0;
   padding: 0;
-  margin-bottom: 2rem;
 }
 
 #chat-inputs {
@@ -101,4 +118,18 @@ input {
 #chat-inputs > input:nth-child(1) {
   width: 150px;
   margin-right: 1rem;
+}
+
+#chat-inputs > input:last-of-type {
+  flex: 1 0 auto;
+}
+
+@media screen and (max-width: 479px) {
+  #chat-inputs {
+    flex-direction: column;
+  }
+
+  #messages > div {
+    max-width: 300px;
+  }
 }

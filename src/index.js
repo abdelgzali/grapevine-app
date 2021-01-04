@@ -1,28 +1,27 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
+import React from "react";
+import ReactDOM from "react-dom";
+import "./index.css";
 
-import Chat from './Chat';
+import Chat from "./Chat";
 
 ReactDOM.render(
   <React.StrictMode>
     <App />
   </React.StrictMode>,
-  document.getElementById('root')
+  document.getElementById("root")
 );
 
 function App() {
-  return ( 
+  return (
     <div id="app">
       <main>
-        <section>
+        <section id="app-chat">
           <h3>Grapes in the vine:</h3>
           <Chat></Chat>
         </section>
       </main>
     </div>
-   );
+  );
 }
- 
-export default App;
 
+export default App;

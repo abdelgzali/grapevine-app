@@ -40,13 +40,26 @@ const MESSAGES_SUBSCRIPTION = gql`
 const Messages = ({ user, messageAdded }) => {
   const scrollRef = useRef(null);
   const { data: messages } = useQuery(GET_MESSAGES);
+  const [messagesArr, updateUpdateMessagesArr] = useState([]);
 
   useEffect(() => {
     scrollRef.current.scrollIntoView({ behavior: "smooth" });
   });
 
-  const messagesArr = messages ? [...messages.messages] : [];
-  if (messageAdded) messagesArr.push(messageAdded.newMessage);
+  useEffect(() => {
+    updateUpdateMessagesArr(messages ? [...messages.messages] : []);
+  }, [messages]);
+
+  useEffect(() => {
+    if (messageAdded) {
+      const updatedMessages = [...messagesArr];
+      updatedMessages.push(messageAdded.newMessage);
+      updateUpdateMessagesArr(updatedMessages);
+    }
+  }, [messageAdded]);
+
+  // const messagesArr = messages ? [...messages.messages] : [];
+  // if (messageAdded) messagesArr.push(messageAdded.newMessage);
 
   return (
     <div id="messages">
@@ -94,12 +107,19 @@ const Chat = () => {
         ...chatState,
         grape: ls("local-user"),
       });
+    } else {
+      setChatState({
+        ...chatState,
+        grape: user,
+      });
     }
   };
 
   return (
-    <div>
-      <Messages user={chatState.grape} messageAdded={messageAdded} />
+    <div id="chat">
+      <section id="messages-wrapper">
+        <Messages user={chatState.grape} messageAdded={messageAdded} />
+      </section>
       <div id="chat-inputs">
         <input
           type="text"
